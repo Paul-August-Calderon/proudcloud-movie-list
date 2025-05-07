@@ -1,12 +1,13 @@
 <div id="header">
   <div class="flex justify-between m-4">
     <h1 class="text-4xl"> My Movie List </h1>
-    <input class="border rounded-md p-2 min-w-1/7" type="text" placeholder="(type here to search...)">
+    <input class="border rounded-md p-3 w-1/7" type="text" placeholder="(type here to search...)">
   </div>
   <hr class="m-4">
 </div>
-<div id="movie-list" class="flex justify-center pt-5 ">
-  <div id="movie-list-header" class="h-15 w-1/2 flex flex-row">
+<!--TODO Move movie list to a partial-->
+<div id="movie-list" class="flex flex-col items-center pt-5">
+  <div id="movie-list-header" class="h-15 w-1/2 flex mb-10">
     <div class="border border-r-0 w-1/2 flex items-center pl-[5%]">
       Movie Title
     </div>
@@ -18,4 +19,20 @@
     </div>
     <div class="border w-1/20"></div>
   </div>
+
+  <div id="movie-row" class="border h-10 w-1/2 rounded-md flex">
+    <div class="w-1/2 flex items-center pl-[5%]">
+      Movie Title
+    </div>
+    <div class="w-1/4 flex items-center justify-center">
+      Vote Rating
+    </div>
+    <div class="w-1/4 flex items-center justify-center">
+      Vote Count
+    </div>
+    <div class="w-1/20 text-4xl flex items-center justify-center">
+      X
+    </div>
+  </div>
 </div>
+
