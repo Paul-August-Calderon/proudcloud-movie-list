@@ -20,7 +20,7 @@
     <div class="border w-1/20"></div>
   </div>
   <% @movies.each do |movie| %>
-    <div id="movie-row" class="border h-10 w-1/2 rounded-md flex my-2">
+    <div id="movie-row" class="border h-10 w-1/2 rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>">
       <div class="w-1/2 flex items-center pl-[5%]">
         <%= movie.title %>
       </div>
