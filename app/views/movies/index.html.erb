@@ -6,7 +6,7 @@
   <hr class="m-4">
 </div>
 <!--TODO Move movie list to a partial-->
-<div id="movie-list" class="flex flex-col items-center mt-8">
+<div id="movie-list" class="flex flex-col items-center mt-8" data-controller="movie-list">
   <div id="movie-list-header" class="h-15 w-1/2 flex mb-10">
     <div class="border border-r-0 w-1/2 flex items-center pl-[5%]">
       Movie Title
@@ -20,7 +20,8 @@
     <div class="border w-1/20"></div>
   </div>
   <% @movies.each do |movie| %>
-    <div id="movie-row" class="border h-10 w-1/2 rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>">
+    <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-1/2 rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>"
+        data-movies-target="row">
       <div class="w-1/2 flex items-center pl-[5%]">
         <%= movie.title %>
       </div>
@@ -31,7 +32,7 @@
         <%= movie.vote_count %>
       </div>
       <div class="w-1/20 text-4xl flex items-center justify-center">
-        X
+        <button data-action="click->movie-list#removeRow">X</button>
       </div>
     </div>
   <% end %>
