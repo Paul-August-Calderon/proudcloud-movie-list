@@ -56,6 +56,7 @@ group :development, :test do
   gem "rspec"
   gem "rspec-rails"
   gem "factory_bot_rails"
+  gem "foreman"
 end
 
 group :development do
@@ -68,3 +69,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "tailwindcss-ruby", "~> 4.1"
+gem "tailwindcss-rails", "~> 4.2"
