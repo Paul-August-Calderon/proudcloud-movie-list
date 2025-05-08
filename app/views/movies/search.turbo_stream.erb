@@ -1,5 +1,13 @@
 <%= turbo_stream.update "search_results" do %>
   <% @movies.each do |movie| %>
-    <div class="text-xl"> <%= movie.title %> </div>
+    <div id="movie-<%= movie.id %>"
+         class="text-xl"
+         data-action="click->movie-list#addToList"
+         data-movie-id="<%= movie.id %>"
+         data-title="<%= movie.title %>"
+         data-vote-average="<%= movie.vote_average %>"
+         data-vote-count="<%= movie.vote_count %>">
+      <%= movie.title %>
+    </div>
   <% end %>
 <% end %>
