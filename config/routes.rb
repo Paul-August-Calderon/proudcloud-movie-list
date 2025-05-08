@@ -12,5 +12,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "movies#index"
 
-  resources :movies, only: %i[index]
+  resources :movies, only: %i[index] do
+    collection do
+      post :search
+    end
+  end
 end

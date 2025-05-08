@@ -4,4 +4,10 @@ class MoviesController < ApplicationController
     @movies = Movie.find(Movie.ids.sample(3))
     @highest_rating = @movies.max_by(&:vote_average)&.vote_average
   end
+
+  def search
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
 end

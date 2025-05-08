@@ -1,40 +1,50 @@
-<div id="header">
-  <div class="flex justify-between m-4">
-    <h1 class="text-4xl"> My Movie List </h1>
-    <input class="border rounded-md p-3 w-1/7" type="text" placeholder="(type here to search...)">
+<div data-controller="movie-list">
+  <div id="header">
+    <div class="flex justify-between m-4">
+      <h1 class="text-4xl"> My Movie List </h1>
+      <div class="w-1/7 relative">
+        <%= form_with url: "/movies/search", data: {movie_list_target: "searchForm"}, method: :post do |form| %>
+          <%= form.text_field :query, placeholder: "(type here to search...)", class: "border rounded-md p-3 w-full",
+                                      data: { movie_list_target: "query",
+                                      action: "input->movie-list#searchMovies" } %>
+        <% end %>
+        <div class="border w-full rounded-md absolute">
+          <%= turbo_frame_tag "search_results" %>
+        </div>
+      </div>
+    </div>
+    <hr class="m-4">
   </div>
-  <hr class="m-4">
-</div>
-<!--TODO Move movie list to a partial-->
-<div id="movie-list" class="flex flex-col items-center mt-8" data-controller="movie-list">
-  <div id="movie-list-header" class="h-15 w-1/2 flex mb-10">
-    <div class="border border-r-0 w-1/2 flex items-center pl-[5%]">
-      Movie Title
+  <!--TODO Move movie list to a partial-->
+  <div id="movie-list" class="flex flex-col items-center mt-8">
+    <div id="movie-list-header" class="h-15 w-1/2 flex mb-10">
+      <div class="border border-r-0 w-1/2 flex items-center pl-[5%]">
+        Movie Title
+      </div>
+      <div class="border border-r-0 w-1/4 flex items-center justify-center">
+        Vote Rating
+      </div>
+      <div class="border border-r-0 w-1/4 flex items-center justify-center">
+        Vote Count
+      </div>
+      <div class="border w-1/20"></div>
     </div>
-    <div class="border border-r-0 w-1/4 flex items-center justify-center">
-      Vote Rating
-    </div>
-    <div class="border border-r-0 w-1/4 flex items-center justify-center">
-      Vote Count
-    </div>
-    <div class="border w-1/20"></div>
+    <% @movies.each do |movie| %>
+      <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-1/2 rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>"
+          data-movie-list-target="row">
+        <div class="w-1/2 flex items-center pl-[5%]">
+          <%= movie.title %>
+        </div>
+        <div class="w-1/4 flex items-center justify-center">
+          <%= movie.vote_average %>
+        </div>
+        <div class="w-1/4 flex items-center justify-center">
+          <%= movie.vote_count %>
+        </div>
+        <div class="w-1/20 text-4xl flex items-center justify-center">
+          <button data-action="click->movie-list#removeRow">X</button>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <% @movies.each do |movie| %>
-    <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-1/2 rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>"
-        data-movies-target="row">
-      <div class="w-1/2 flex items-center pl-[5%]">
-        <%= movie.title %>
-      </div>
-      <div class="w-1/4 flex items-center justify-center">
-        <%= movie.vote_average %>
-      </div>
-      <div class="w-1/4 flex items-center justify-center">
-        <%= movie.vote_count %>
-      </div>
-      <div class="w-1/20 text-4xl flex items-center justify-center">
-        <button data-action="click->movie-list#removeRow">X</button>
-      </div>
-    </div>
-  <% end %>
 </div>
-
