@@ -1,7 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["row", "query", "searchForm", "matchedResult"]
+    static targets = ["row", "query", "searchForm", "searchResult", "searchContainer"]
+
+    connect() {
+        this.clickOutside = this.clickOutside.bind(this);
+        document.addEventListener("click", this.clickOutside);
+    }
+
+    disconnect() {
+        document.removeEventListener("click", this.clickOutside);
+    }
 
     removeRow(event) {
         event.target.closest(".movie-row").remove();
@@ -18,9 +27,22 @@ export default class extends Controller {
         const rowHtml = formatMovieRowHTML(parseMovieDetail(event.target));
         const movieRowContainer = document.getElementById("movie-rows");
 
-        movieRowContainer.insertAdjacentHTML("beforeend", rowHtml)
+        movieRowContainer.insertAdjacentHTML("beforeend", rowHtml);
+        event.target.remove();
+    }
 
-        event.target.remove()
+    hideResult () {
+        this.searchResultTarget.classList.add("hidden");
+    }
+
+    showResult () {
+        this.searchResultTarget.classList.remove("hidden");
+    }
+
+    clickOutside(event) {
+        if (!this.searchContainerTarget.contains(event.target)) {
+            this.hideResult();
+        }
     }
 }
 

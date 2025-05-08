@@ -2,7 +2,7 @@
   <% @movies.each do |movie| %>
     <div id="movie-<%= movie.id %>"
          class="text-xl"
-         data-action="click->movie-list#addToList"
+         data-action="mousedown->movie-list#addToList"
          data-movie-id="<%= movie.id %>"
          data-title="<%= movie.title %>"
          data-vote-average="<%= movie.vote_average %>"

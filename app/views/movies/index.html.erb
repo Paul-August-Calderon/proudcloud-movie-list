@@ -2,13 +2,14 @@
   <div id="header">
     <div class="flex justify-between m-4">
       <h1 class="text-4xl"> My Movie List </h1>
-      <div class="w-1/7 relative">
+      <div class="w-1/7 relative" data-movie-list-target="searchContainer">
         <%= form_with url: "/movies/search", data: {movie_list_target: "searchForm"}, method: :post do |form| %>
           <%= form.text_field :query, placeholder: "(type here to search...)", class: "border rounded-md p-3 w-full",
                                       data: { movie_list_target: "query",
-                                              action: "input->movie-list#searchMovies" } %>
+                                              action: "input->movie-list#searchMovies
+                                              focus->movie-list#showResult"}%>
         <% end %>
-        <div class="bg-gray-600 text-white border w-full rounded-md absolute">
+        <div class="bg-gray-600 text-white border w-full rounded-md absolute hidden" data-movie-list-target="searchResult">
           <%= turbo_frame_tag "search_results" %>
         </div>
       </div>
