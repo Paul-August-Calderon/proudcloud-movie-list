@@ -29,22 +29,24 @@
       </div>
       <div class="border w-1/20"></div>
     </div>
-    <% @movies.each do |movie| %>
-      <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-1/2 rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>"
-          data-movie-list-target="row">
-        <div class="w-1/2 flex items-center pl-[5%]">
-          <%= movie.title %>
+    <div id="movie-rows" class="w-1/2">
+      <% @movies.each do |movie| %>
+        <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-full rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>"
+             data-movie-list-target="row">
+          <div class="w-1/2 flex items-center pl-[5%]">
+            <%= movie.title %>
+          </div>
+          <div class="w-1/4 flex items-center justify-center">
+            <%= movie.vote_average %>
+          </div>
+          <div class="w-1/4 flex items-center justify-center">
+            <%= movie.vote_count %>
+          </div>
+          <div class="w-1/20 text-4xl flex items-center justify-center">
+            <button data-action="click->movie-list#removeRow">X</button>
+          </div>
         </div>
-        <div class="w-1/4 flex items-center justify-center">
-          <%= movie.vote_average %>
-        </div>
-        <div class="w-1/4 flex items-center justify-center">
-          <%= movie.vote_count %>
-        </div>
-        <div class="w-1/20 text-4xl flex items-center justify-center">
-          <button data-action="click->movie-list#removeRow">X</button>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

@@ -6,7 +6,7 @@ class MoviesController < ApplicationController
   end
 
   def search
-    @movies = Movie.where("title LIKE ?", "%" + params[:query] + "%")
+    @movies = Movie.where("title LIKE ?", "%" + "#{params[:query]}" + "%")
       respond_to do |format|
       format.turbo_stream
     end
