@@ -6,9 +6,9 @@
         <%= form_with url: "/movies/search", data: {movie_list_target: "searchForm"}, method: :post do |form| %>
           <%= form.text_field :query, placeholder: "(type here to search...)", class: "border rounded-md p-3 w-full",
                                       data: { movie_list_target: "query",
-                                      action: "input->movie-list#searchMovies" } %>
+                                              action: "input->movie-list#searchMovies" } %>
         <% end %>
-        <div class="border w-full rounded-md absolute">
+        <div class="bg-gray-600 text-white border w-full rounded-md absolute">
           <%= turbo_frame_tag "search_results" %>
         </div>
       </div>

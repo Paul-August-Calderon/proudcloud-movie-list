@@ -1,3 +1,5 @@
 <%= turbo_stream.update "search_results" do %>
-  Hello World
+  <% @movies.each do |movie| %>
+    <div class="text-xl"> <%= movie.title %> </div>
+  <% end %>
 <% end %>
