@@ -34,7 +34,8 @@
       <% @movies.each do |movie| %>
         <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-full rounded-md flex my-2 <%= highlight_for_highest_rated_movie(movie.vote_average, @highest_rating) %>"
              data-movie-list-target="row"
-             data-movie-id = "<%= movie.id %>">
+             data-movie-id = "<%= movie.id %>"
+             data-vote-average = "<%= movie.vote_average %>">
           <div class="w-1/2 flex items-center pl-[5%]">
             <%= movie.title %>
           </div>

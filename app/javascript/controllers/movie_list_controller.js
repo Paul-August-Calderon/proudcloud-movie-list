@@ -32,9 +32,9 @@ export default class extends Controller {
     // this ensures already listed movies aren't in the search result
     // one alternative to this is to add/remove the hidden input during each add/remove
     appendMovieIds() {
-        const form = document.getElementById('search-bar');
+        const form = document.getElementById('search-bar'); // TODO this can use the searchForm targets
         // clear existing hidden inputs
-        [...document.getElementsByName("displayed_movie_ids[]")].forEach(e => e.remove())
+        [...document.getElementsByName("displayed_movie_ids[]")].forEach(e => e.remove()) // TODO this can use the rowTargets
 
         // parse and create elements
         const movieIds = this.rowTargets.map(row => row.getAttribute("data-movie-id"))
@@ -66,7 +66,20 @@ export default class extends Controller {
             this.hideResult();
         }
     }
+
     highlightHighestRated() {
+        const movieIds = highestRated(this.rowTargets)
+        // remove existing highlights then highlight new
+        this.removeHighlight()
+        // highlight rows again
+        movieIds.forEach(id => document.getElementById(id).classList.add("bg-green-300"))
+    }
+
+    removeHighlight() {
+        // this breaks if any other element using this bg color.
+        // should be changed to something more unique or just iterate through all row and remove the color
+        const highlightedRows = document.querySelectorAll(".bg-green-300")
+        highlightedRows.forEach((row) => row.classList.remove("bg-green-300"));
     }
 }
 
@@ -90,7 +103,8 @@ function formatMovieRowHTML(movie) {
     return `
     <div id="movie-id-${movie.id}" class="movie-row border h-10 rounded-md flex my-2"
             data-movie-list-target="row"
-            data-movie-id = "${movie.id}">
+            data-movie-id = "${movie.id}"
+             data-vote-average = "${movie.voteAverage}">
         <div class="w-1/2 flex items-center pl-[5%]">
              ${movie.title}
         </div>
@@ -115,4 +129,32 @@ function createHiddenInput(id) {
     hiddenInput.setAttribute('value', id);
 
     return hiddenInput;
+}
+
+// returns array of ids of highest rated movies
+function highestRated(movies) {
+    let highestMovieIds = []
+    let highestRating = 0.0
+
+    const moviesArray = movies.map((movie) => {
+        const id = movie.getAttribute("id");
+        const vote_average = parseFloat(movie.getAttribute("data-vote-average"));
+        return {
+            id: id,
+            vote_average: vote_average
+        }
+    })
+
+    moviesArray.forEach((movie) => {
+        if (movie.vote_average > highestRating) {
+            highestRating = movie.vote_average
+            highestMovieIds = [movie.id]
+        }
+        // To be consistent with movies that tie
+        else if (movie.vote_average === highestRating) {
+            highestMovieIds.push()
+        }
+    })
+
+    return highestMovieIds;
 }
