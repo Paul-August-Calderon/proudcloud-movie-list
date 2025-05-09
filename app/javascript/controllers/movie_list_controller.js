@@ -19,9 +19,28 @@ export default class extends Controller {
     searchMovies() {
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
+            this.appendMovieIds()
             this.searchFormTarget.requestSubmit()
         }, 300);
     }
+
+    // this ensures already listed movies aren't in the search result
+    // one alternative to this is to add/remove the hidden input during each add/remove
+    appendMovieIds() {
+        const form = document.getElementById('search-bar');
+        // clear existing hidden inputs
+        [...document.getElementsByName("displayed_movie_ids[]")].forEach(e => e.remove())
+
+        // parse and create elements
+        const movieIds = this.rowTargets.map(row => row.getAttribute("data-movie-id"))
+        const hiddenInputs = movieIds.map(createHiddenInput)
+
+        hiddenInputs.forEach(input => {
+            form.appendChild(input)
+        })
+    }
+
+
 
     addToList(event) {
         const rowHtml = formatMovieRowHTML(parseMovieDetail(event.target));
@@ -65,7 +84,8 @@ function parseMovieDetail(movieSearchElement) {
 function formatMovieRowHTML(movie) {
     return `
     <div id="movie-id-${movie.id}" class="movie-row border h-10 rounded-md flex my-2"
-            data-movie-list-target="row">
+            data-movie-list-target="row"
+            data-movie-id = "${movie.id}">
         <div class="w-1/2 flex items-center pl-[5%]">
              ${movie.title}
         </div>
@@ -82,3 +102,12 @@ function formatMovieRowHTML(movie) {
     `;
 }
 
+function createHiddenInput(id) {
+    const hiddenInput = document.createElement('input');
+
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'displayed_movie_ids[]');
+    hiddenInput.setAttribute('value', id);
+
+    return hiddenInput;
+}
