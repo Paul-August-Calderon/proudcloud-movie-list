@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["row", "rows", "query", "searchForm", "searchResult", "searchContainer"]
+    static targets = ["row", "rows", "searchForm", "searchResult", "searchResults", "searchContainer"]
 
     connect() {
         this.clickOutside = this.clickOutside.bind(this);
@@ -13,7 +13,7 @@ export default class extends Controller {
     }
 
     disconnect() {
-        this.rowsObserver.disconnect()
+        this.rowsObserver.disconnect();
         document.removeEventListener("click", this.clickOutside);
     }
 
@@ -24,24 +24,24 @@ export default class extends Controller {
     searchMovies() {
         clearTimeout(this.debounceTimeout);
         this.debounceTimeout = setTimeout(() => {
-            this.appendMovieIds()
-            this.searchFormTarget.requestSubmit()
+            this.appendMovieIds();
+            this.searchFormTarget.requestSubmit();
         }, 300);
     }
 
     // this ensures already listed movies aren't in the search result
     // one alternative to this is to add/remove the hidden input during each add/remove
     appendMovieIds() {
-        const form = document.getElementById('search-bar'); // TODO this can use the searchForm targets
+        const form = this.searchFormTarget;
         // clear existing hidden inputs
-        [...document.getElementsByName("displayed_movie_ids[]")].forEach(e => e.remove()) // TODO this can use the rowTargets
+        this.searchResultTargets.forEach(e => e.remove());
 
         // parse and create elements
-        const movieIds = this.rowTargets.map(row => row.getAttribute("data-movie-id"))
-        const hiddenInputs = movieIds.map(createHiddenInput)
+        const movieIds = this.rowTargets.map(row => row.getAttribute("data-movie-id"));
+        const hiddenInputs = movieIds.map(createHiddenInput);
 
         hiddenInputs.forEach(input => {
-            form.appendChild(input)
+            form.appendChild(input);
         })
     }
 
@@ -54,11 +54,11 @@ export default class extends Controller {
     }
 
     hideResult () {
-        this.searchResultTarget.classList.add("hidden");
+        this.searchResultsTarget.classList.add("hidden");
     }
 
     showResult () {
-        this.searchResultTarget.classList.remove("hidden");
+        this.searchResultsTarget.classList.remove("hidden");
     }
 
     clickOutside(event) {
@@ -68,17 +68,17 @@ export default class extends Controller {
     }
 
     highlightHighestRated() {
-        const movieIds = highestRated(this.rowTargets)
+        const movieIds = highestRated(this.rowTargets);
         // remove existing highlights then highlight new
-        this.removeHighlight()
+        this.removeHighlight();
         // highlight rows again
-        movieIds.forEach(id => document.getElementById(id).classList.add("bg-green-300"))
+        movieIds.forEach(id => document.getElementById(id).classList.add("bg-green-300"));
     }
 
     removeHighlight() {
         // this breaks if any other element using this bg color.
         // should be changed to something more unique or just iterate through all row and remove the color
-        const highlightedRows = document.querySelectorAll(".bg-green-300")
+        const highlightedRows = document.querySelectorAll(".bg-green-300");
         highlightedRows.forEach((row) => row.classList.remove("bg-green-300"));
     }
 }
@@ -122,11 +122,12 @@ function formatMovieRowHTML(movie) {
 }
 
 function createHiddenInput(id) {
-    const hiddenInput = document.createElement('input');
+    const hiddenInput = document.createElement("input");
 
-    hiddenInput.setAttribute('type', 'hidden');
-    hiddenInput.setAttribute('name', 'displayed_movie_ids[]');
-    hiddenInput.setAttribute('value', id);
+    hiddenInput.setAttribute("type", "hidden");
+    hiddenInput.setAttribute("name", "displayed_movie_ids[]");
+    hiddenInput.setAttribute("data-movie-list-target", "searchResult");
+    hiddenInput.setAttribute("value", id);
 
     return hiddenInput;
 }
@@ -142,7 +143,7 @@ function highestRated(movies) {
         return {
             id: id,
             vote_average: vote_average
-        }
+        };
     })
 
     moviesArray.forEach((movie) => {

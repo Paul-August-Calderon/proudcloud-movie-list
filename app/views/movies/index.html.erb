@@ -9,7 +9,7 @@
                                               action: "input->movie-list#searchMovies
                                               focus->movie-list#showResult"}%>
         <% end %>
-        <div class="bg-gray-600 text-white border w-full rounded-md absolute hidden" data-movie-list-target="searchResult">
+        <div class="bg-gray-600 text-white border w-full rounded-md absolute hidden" data-movie-list-target="searchResults">
           <%= turbo_frame_tag "search_results" %>
         </div>
       </div>
