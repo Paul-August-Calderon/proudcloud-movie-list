@@ -9,8 +9,7 @@ class MoviesController < ApplicationController
     if params[:query].present?
       query = params[:query].to_s.strip
       displayed_ids = params[:displayed_movie_ids] || []
-      @movies = Movie.where.not(id: displayed_ids)
-                     .where("title LIKE ?", "%#{Movie.sanitize_sql_like(query)}%")
+      @movies = Movie.where.not(id: displayed_ids).with_title_like(query)
     else
       @movies = Movie.none
     end
