@@ -34,4 +34,15 @@ RSpec.describe Movie, type: :model do
       end
     end
   end
+
+  describe 'scopes' do
+    context 'using with_title_like scope' do
+      let!(:title) { Faker::Movie.title }
+      let!(:movie) { create(:movie, title:) }
+
+      it 'returns the expected record' do
+        expect(described_class.with_title_like(title).first).to eq(movie)
+      end
+    end
+  end
 end
