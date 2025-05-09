@@ -6,10 +6,14 @@ class MoviesController < ApplicationController
   end
 
   def search
-    query = params[:query].to_s.strip
-    displayed_ids = params[:displayed_movie_ids] || []
-    @movies = Movie.where.not(id: displayed_ids)
-                   .where("title LIKE ?", "%#{Movie.sanitize_sql_like(query)}%")
+    if params[:query].present?
+      query = params[:query].to_s.strip
+      displayed_ids = params[:displayed_movie_ids] || []
+      @movies = Movie.where.not(id: displayed_ids)
+                     .where("title LIKE ?", "%#{Movie.sanitize_sql_like(query)}%")
+    else
+      @movies = Movie.none
+    end
 
     respond_to do |format|
       format.turbo_stream
