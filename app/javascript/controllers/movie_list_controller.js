@@ -4,17 +4,13 @@ export default class extends Controller {
     static targets = ["row", "rows", "searchForm", "searchResult", "searchResults", "searchContainer"]
 
     connect() {
-        this.clickOutside = this.clickOutside.bind(this);
         this.highlightHighestRated = this.highlightHighestRated.bind(this);
-        document.addEventListener("click", this.clickOutside);
-
         this.rowsObserver = new MutationObserver(this.highlightHighestRated);
         this.rowsObserver.observe(this.rowsTarget, { childList: true });
     }
 
     disconnect() {
         this.rowsObserver.disconnect();
-        document.removeEventListener("click", this.clickOutside);
     }
 
     removeRow(event) {
