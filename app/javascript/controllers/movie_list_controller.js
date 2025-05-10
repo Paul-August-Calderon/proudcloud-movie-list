@@ -47,7 +47,7 @@ export default class extends Controller {
 
     addToList(event) {
         const rowHtml = formatMovieRowHTML(parseMovieDetail(event.target));
-        const movieRowContainer = document.getElementById("movie-rows");
+        const movieRowContainer = this.rowsTarget
 
         movieRowContainer.insertAdjacentHTML("beforeend", rowHtml);
         event.target.remove();
