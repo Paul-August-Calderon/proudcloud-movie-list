@@ -76,8 +76,9 @@ export default class extends Controller {
     }
 
     removeHighlight() {
-        // this breaks if any other element using this bg color.
-        // should be changed to something more unique or just iterate through all row and remove the color
+        // this breaks if any other element uses this bg color.
+        // should be changed to something more unique or just iterate through all rows and remove the color
+        // alternative you can add a highlightedRow target the highlighted row
         const highlightedRows = document.querySelectorAll(".bg-green-300");
         highlightedRows.forEach((row) => row.classList.remove("bg-green-300"));
     }
