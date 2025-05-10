@@ -3,6 +3,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
     static targets = ["row", "rows", "searchForm", "searchResult", "searchResults", "searchContainer"]
 
+    initialize() {
+        this.highlightHighestRated()
+    }
+
     connect() {
         this.highlightHighestRated = this.highlightHighestRated.bind(this);
         this.rowsObserver = new MutationObserver(this.highlightHighestRated);

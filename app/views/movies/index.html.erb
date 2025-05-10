@@ -32,7 +32,7 @@
     </div>
     <div id="movie-rows" data-movie-list-target="rows" class="w-1/2">
       <% @movies.each do |movie| %>
-        <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-full rounded-md flex my-2 <%= highlight_highest_rated(movie.vote_average, @highest_rating) %>"
+        <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-full rounded-md flex my-2"
              data-movie-list-target="row"
              data-movie-id = "<%= movie.id %>"
              data-vote-average = "<%= movie.vote_average %>">
