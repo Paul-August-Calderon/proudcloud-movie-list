@@ -29,6 +29,7 @@ It also contains assumptions during the creation and some comments regarding the
 - Deployment
 - Prod testing
 ---
+#### Clarifications
 - I would clarify with UI/UX designer and/or PO about "Vote Rating" in the mockup vs "Vote Average" in the AC. For now I'm assuming the mockup's "Vote Rating" is to be followed  
 - I would clarify with UI/UX designer and/or PO if there should be an empty state for the search results. For now I'm assuming there shouldn't be. This patterns off Youtube's search. 
 - I would clarify with PO if displayed movies shouldn't be shown on the search results.  For now I'm assuming they shouldn't be  
@@ -135,23 +136,26 @@ There is a search bar on the upper right.
 - Clicking on the [X] removes the movie from the list.
 - The search bar matches using the movie title. The results are displayed below.
 - Clicking on a search result adds the movie to the list.
-- Movies already displayed don't get matched.
+- Movies already listed don't get matched.
 - The green highlight dynamically changes whenever a movie is added/removed from the list.
+- Clicking anywhere other than the search bar and result, hides the search result.
 
 ## Implementation
 The project uses Ruby and Ruby On Rails to develop the application.
 #### Models
-- ##### Movies
+- ###### Movies
     -   id | Primary Key
-    -   title | String | Null = False, 
+    -   title | String | Null = False
     -   vote_average | Float | Null = False, Must be greater than 0 
     -   vote_count | Integer | Null = False, Must be greater than 0
-- #### Javascript
-  - Javascript/Stimulus is used to implement the client-side behavior seen.
+#### Javascript
+  - Javascript/Stimulus is used to implement most of the client-side behavior seen.
   - Typing in the search bar causes the form to be submitted.
   - There is a 300ms debounce when typing in the search bar.
   - Hidden inputs in the form keep track of the listed movies. This is used to exclude movies from the search result. 
   - A mutation observer is used to implement the row dynamic highlighting.
+#### Turbo
+  - A turbo stream, in response to the form submission, is responsible for delivering the search result. 
 
 ## Testing
 This application uses rspec as the test runner.
@@ -173,6 +177,6 @@ bundle exec rspec spec/system/movies_list_spec.rb
 The project is deployed on Koyeb using their Hobby Plan resources.
 
 The Hobby tier deployment hibernates when no traffic is detected. 
-When first accessing the site, allow some time for the deployment to spin up.
+When first accessing the site, allow some time for the application to spin up.
 
 [Link to deployed project](https://lucky-chinchilla-sandbox-mamon-2b375214.koyeb.app/)
