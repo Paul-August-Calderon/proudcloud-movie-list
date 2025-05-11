@@ -152,9 +152,9 @@ function highestRated(movies) {
             highestRating = movie.vote_average
             highestMovieIds = [movie.id]
         }
-        // To be consistent with movies that tie
+        // To highlight tied movies
         else if (movie.vote_average === highestRating) {
-            highestMovieIds.push()
+            highestMovieIds.push(movie.id)
         }
     })
 
