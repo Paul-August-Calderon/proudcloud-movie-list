@@ -1,51 +1,50 @@
-<div data-controller="movie-list" data-action="click->movie-list#clickOutside">
+<div class="flex flex-col min-h-screen" data-controller="movie-list" data-action="click->movie-list#clickOutside">
   <div id="header">
     <div class="flex justify-between m-4">
       <h1 class="text-4xl"> My Movie List </h1>
-      <div class="w-1/7 relative" data-movie-list-target="searchContainer">
+      <div class="w-1/5 relative" data-movie-list-target="searchContainer">
         <%= form_with url: "/movies/search", id: "search-bar", data: {movie_list_target: "searchForm"}, method: :post do |form| %>
-          <%= form.text_field :query, placeholder: "(type here to search...)", class: "border rounded-md p-3 w-full",
+          <%= form.text_field :query, placeholder: "(type here to search...)", class: "w-full p-3 border rounded-md",
                               autocomplete: :off, data: { movie_list_target: "query",
                                                   action: "input->movie-list#searchMovies
                                                   focus->movie-list#showResult"}%>
         <% end %>
-        <div class="bg-gray-600 text-white border w-full rounded-md absolute hidden" data-movie-list-target="searchResults">
+        <div class="absolute w-full text-white bg-gray-600 border rounded-md hidden" data-movie-list-target="searchResults">
           <%= turbo_frame_tag "search_results" %>
         </div>
       </div>
     </div>
     <hr class="m-4">
   </div>
-  <!--TODO Move movie list to a partial-->
-  <div id="movie-list" class="flex flex-col items-center mt-8">
-    <div id="movie-list-header" class="h-15 w-1/2 flex mb-10">
-      <div class="border border-r-0 w-1/2 flex items-center pl-[5%]">
+  <div id="movie-list" class="flex flex-col self-center items-stretch w-2/3 mt-8">
+    <div id="movie-list-header" class="flex h-15 mb-10">
+      <div class="flex items-center w-1/2 pl-[5%] border border-r-0">
         Movie Title
       </div>
-      <div class="border border-r-0 w-1/4 flex items-center justify-center">
+      <div class="flex items-center justify-center w-1/4 border border-r-0">
         Vote Rating
       </div>
-      <div class="border border-r-0 w-1/4 flex items-center justify-center">
+      <div class="flex items-center justify-center w-1/4 border border-r-0">
         Vote Count
       </div>
       <div class="border w-1/20"></div>
     </div>
-    <div id="movie-rows" data-movie-list-target="rows" class="w-1/2">
+    <div id="movie-rows" data-movie-list-target="rows">
       <% @movies.each do |movie| %>
-        <div id="<%= "movie-id-#{movie.id}" %>" class="movie-row border h-10 w-full rounded-md flex my-2"
+        <div id="<%= "movie-id-#{movie.id}" %>" class="flex h-10 my-2 border rounded-md movie-row"
              data-movie-list-target="row"
              data-movie-id = "<%= movie.id %>"
              data-vote-average = "<%= movie.vote_average %>">
-          <div class="w-1/2 flex items-center pl-[5%]">
+          <div class="flex items-center w-1/2 pl-[5%]">
             <%= movie.title %>
           </div>
-          <div class="w-1/4 flex items-center justify-center">
+          <div class="flex items-center justify-center w-1/4">
             <%= movie.vote_average %>
           </div>
-          <div class="w-1/4 flex items-center justify-center">
+          <div class="flex items-center justify-center w-1/4">
             <%= movie.vote_count %>
           </div>
-          <div class="w-1/20 text-4xl flex items-center justify-center">
+          <div class="flex items-center justify-center w-1/20 text-4xl">
             <button data-action="click->movie-list#removeRow">X</button>
           </div>
         </div>
