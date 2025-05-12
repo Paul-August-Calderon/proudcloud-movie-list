@@ -75,7 +75,7 @@ The project was developed under the following versions:
 
 >Rails 8.0.2  
 
-*It is recommended to install the ruby version using a version manager(rbenv)*
+*It is recommended to install the ruby version using a version manager [rbenv](https://github.com/rbenv/rbenv)*
 
 ##### To run the project locally
 Clone the repository (you might need to be added as collaborator):
@@ -96,7 +96,7 @@ bundle install
 ```
 You can now try running the application via:
 ```bash
-bin/rails server
+bin/rails server -p 3000
 ```
 ##### Additional instruction for Development setup
 There is an included Procfile.dev for running the project locally.  
@@ -156,6 +156,8 @@ The project uses Ruby and Ruby On Rails to develop the application.
   - A mutation observer is used to implement the row dynamic highlighting.
 #### Turbo
   - A turbo stream, in response to the form submission, is responsible for delivering the search result. 
+#### Database
+ - This application uses SQLite as its database.
 
 ## Testing
 This application uses rspec as the test runner.
